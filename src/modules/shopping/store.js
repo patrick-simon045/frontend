@@ -1,6 +1,7 @@
 export default {
   state: {
     items: ["🥑 avocado", "🍉 watermelon"],
+    showAddNewItem: Boolean(false),
     products: [
       { name: "🥑 avocado", price: 10, quantity: 1, id: 1 },
       { name: "🍉 watermelon", price: 12, quantity: 1, id: 2 },
@@ -14,11 +15,27 @@ export default {
       { countryName: "Brazil", assetPath: "@/assets/braz.png", price: 34.5 },
       { countryName: "Argentina", assetPath: "@/assets/arg.png", price: 29.4 },
     ],
-    shippingCountry: Number(0)
+    shippingCountry: Number(0),
+
+    groceriesList: [
+      { name: "Old Man's War", price: 20.01, id: 3 },
+      { name: "The Lock Artist", price: 42.01, id: 4 },
+      { name: "HTML5", price: 12.04, id: 5 },
+      { name: "Right Ho Jeeves", price: 74.74, id: 6 },
+      { name: "The Code of the Wooster", price: 46.21, id: 7 },
+      { name: "Thank You Jeeves", price: 56.23, id: 8 },
+    ],
   },
   getters: {
+    GET_BOOKS: (state) => {
+      return state.groceriesList;
+    },
+
     GET_ITEMS: (state) => {
       return state.items;
+    },
+    GET_SHOW_ADD_NEW_ITEM: (state) => {
+      return state.showAddNewItem;
     },
     GET_PRODUCTS: (state) => {
       return state.products;
@@ -36,16 +53,24 @@ export default {
       return state.cart;
     },
     GET_SHIPPING_ITEMS: (state) => {
-        return state.shipping
+      return state.shipping;
     },
     GET_SHIPPING_COUNTRY: (state) => {
-        return state.shippingCountry
-    }
+      return state.shippingCountry;
+    },
   },
   mutations: {
     // items
     ADD_ITEM(state, payload) {
       state.items.push(payload);
+    },
+
+    // add new item
+    SHOW_ADD_NEW_ITEM_WINDOW(state) {
+      state.showAddNewItem = Boolean(true);
+    },
+    HIDE_ADD_NEW_ITEM_WINDOW(state) {
+      state.showAddNewItem = Boolean(false);
     },
 
     // products
@@ -85,8 +110,8 @@ export default {
 
     // shipping country
     SET_SHIPPING_COUNTRY(state, payload) {
-        state.shippingCountry = Number(payload)
-    }
+      state.shippingCountry = Number(payload);
+    },
   },
   actions: {
     // items
@@ -109,12 +134,14 @@ export default {
     },
 
     REMOVE_ITEM_FROM_CART({ commit, state }, { productId }) {
-      const payload = state.products.filter(product => product.id === productId);
+      const payload = state.products.filter(
+        (product) => product.id === productId
+      );
       commit("REMOVE_ITEM_FROM_CART", payload[0]);
     },
 
-    SET_SHIPPING_COUNTRY({ commit}, { shippingCountryInd }) {
-        commit('SET_SHIPPING_COUNTRY', shippingCountryInd)
-    }
+    SET_SHIPPING_COUNTRY({ commit }, { shippingCountryInd }) {
+      commit("SET_SHIPPING_COUNTRY", shippingCountryInd);
+    },
   },
 };

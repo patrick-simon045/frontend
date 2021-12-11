@@ -1,12 +1,7 @@
 <template>
   <!-- add items inputs -->
-  <transition name="fade">
-    <div class="add-items-inputs" v-if="show">
-      <div class="button close-input-section" @click="closeDropDown">
-        <p>Close ✖</p>
-      </div>
-    </div>
-  </transition>
+  <add-new-item />
+  
   <div class="left-container">
     <div class="header-section">
       <p class="product-list-header">{{ message }}</p>
@@ -50,13 +45,16 @@
 </template>
 
 <script>
+import addNewItem from '../components/addNewItem.vue'
+import AddNewItem from '../components/addNewItem.vue';
+
 export default {
   name: "shopping-items",
+  components: { addNewItem, AddNewItem },
 
   data() {
     return {
       message: "Place your Order",
-      show: false,
     };
   },
 
@@ -77,32 +75,15 @@ export default {
       this.$store.dispatch('SET_DETAILS_PAGE', { productInd: productIndex })
     },
     addNewItem() {
-      this.show = true
+      this.$store.commit('SHOW_ADD_NEW_ITEM_WINDOW')
     },
-    closeDropDown() {
-      this.show = false
-    }
+    
   },
 };
 </script>
 
 <style>
-.fade-enter-from {
-  transform: translateY(-500px);
-}
 
-.fade-enter-active {
-  transition: all 0.5s ease-in-out;
-}
-
-.fade-leave-to {
-  transform: translateY(-500px);
-  opacity: 1;
-}
-
-.fade-leave-active {
-  transition: all 0.5s ease-in-out;
-}
 
 .left-container {
   flex: 1;
@@ -119,19 +100,7 @@ export default {
   align-items: center;
 }
 
-.add-items-inputs {
-  z-index: 50;
-  height: 500px;
-  width: 50%;
-  top: 0;
-  left: 25%;
-  padding: 20px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  position: absolute;
-  background-color: whitesmoke;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
+
 
 .close-input-section {
   width: 100px;
