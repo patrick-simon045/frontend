@@ -42,6 +42,9 @@
           </div>
         </div>
       </div>
+    <!-- <p>TODO #1: <strong>Implement ADD NEW ITEM feature</strong></p>
+    <p>TODO #2: <strong>Implement DARKMODE/LIGHTMODE SWITCH feature</strong></p>
+    <p>TODO #3: <strong>REFACTOR CODE OBVIOUSLY 👀</strong></p> -->
     </div>
   </div>
 </template>

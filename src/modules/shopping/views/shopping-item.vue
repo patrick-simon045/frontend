@@ -1,7 +1,7 @@
 <template>
   <div class="right-container">
     <div class="details-hidden">
-      <img src="@/assets/empty-cart.jpg" alt="">
+      <img src="@/assets/empty-cart.jpg" alt />
     </div>
 
     <!-- cart items -->
@@ -15,11 +15,7 @@
 
         <div class="cart-items-padding">
           <transition-group name="cart_list">
-            <div
-              class="item-list-row"
-              v-for="(product, index) in cartItems"
-              :key="index"
-            >
+            <div class="item-list-row" v-for="(product, index) in cartItems" :key="index">
               <div class="product-info-and-index">
                 <div class="item-number">
                   <p>{{ index + 1 }}</p>
@@ -160,7 +156,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-.test-header p{
+.test-header p {
   font-weight: 400;
   font-size: 30px;
 }
@@ -204,7 +200,7 @@ export default {
   align-items: center;
   background-color: #fff5fd;
 }
-.details-hidden img{
+.details-hidden img {
   height: 80%;
   width: 100%;
 }
