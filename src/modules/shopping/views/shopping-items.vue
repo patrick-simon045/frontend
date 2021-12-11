@@ -1,6 +1,19 @@
 <template>
+  <!-- add items inputs -->
+  <transition name="fade">
+    <div class="add-items-inputs" v-if="show">
+      <div class="button close-input-section" @click="closeDropDown">
+        <p>Close ✖</p>
+      </div>
+    </div>
+  </transition>
   <div class="left-container">
-    <p class="product-list-header">{{ message }}</p>
+    <div class="header-section">
+      <p class="product-list-header">{{ message }}</p>
+      <div class="button" @click="addNewItem">
+        <p>Add New Item ➕</p>
+      </div>
+    </div>
     <div class="item-list-container">
       <div class="item-list-row" v-for="(product, index) in products" :key="index">
         <div class="product-info-and-index">
@@ -29,7 +42,6 @@
           </div>
         </div>
       </div>
-    <p><strong>TOTO: </strong>Inputs for adding <strong>items on display</strong></p>
     </div>
   </div>
 </template>
@@ -40,7 +52,8 @@ export default {
 
   data() {
     return {
-      message: "Items on display",
+      message: "Place your Order",
+      show: false,
     };
   },
 
@@ -59,18 +72,66 @@ export default {
     },
     showDetails(productIndex) {
       this.$store.dispatch('SET_DETAILS_PAGE', { productInd: productIndex })
+    },
+    addNewItem() {
+      this.show = true
+    },
+    closeDropDown() {
+      this.show = false
     }
   },
 };
 </script>
 
 <style>
+.fade-enter-from {
+  transform: translateY(-500px);
+}
+
+.fade-enter-active {
+  transition: all 0.5s ease-in-out;
+}
+
+.fade-leave-to {
+  transform: translateY(-500px);
+  opacity: 1;
+}
+
+.fade-leave-active {
+  transition: all 0.5s ease-in-out;
+}
+
 .left-container {
   flex: 1;
   height: 100%;
   padding: 50px;
   background-color: #fff5fd;
   text-align: left;
+}
+
+.header-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-items-inputs {
+  z-index: 50;
+  height: 500px;
+  width: 50%;
+  top: 0;
+  left: 25%;
+  padding: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  position: absolute;
+  background-color: whitesmoke;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.close-input-section {
+  width: 100px;
 }
 
 .product-list-header {
@@ -87,6 +148,7 @@ export default {
   width: 100%;
   height: 90%;
   border-radius: 10px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;

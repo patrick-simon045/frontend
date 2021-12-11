@@ -1,62 +1,68 @@
 <template>
-  <div class="right-container" >
+  <div class="right-container">
     <div class="details-hidden" v-if="cartItems.size === 0">
       <p class="cart-list-header">Nothing selected</p>
     </div>
-    <div class="details-shown" v-else >
-      <!-- cart items -->
-      <p class="cart-list-header">Cart Items</p>
-      <div class="item-list-row" v-for="(product, index) in cartItems" :key="index">
-        <div class="product-info-and-index">
-          <div class="item-number">
-            <p>{{ index + 1 }}</p>
-          </div>
-          <div class="product-info">
-            <p>{{ product.name }} @ 💲{{ product.price }}</p>
-          </div>
-        </div>
-        <div class="quantity">
-          Qty:
-          <div class="quantity-value">
-            <p>{{ product.quantity }}</p>
-          </div>
-        </div>
-        <div class="total-price">
-          <p>Price: 💲{{ Math.round(product.price * product.quantity).toFixed(2) }}</p>
-        </div>
-        <div class="button-section">
-          <div class="button" @click="removeFromCart(product.id)">
-            <p>Remove 💀</p>
-          </div>
-        </div>
-      </div>
+    <!-- cart items -->
 
-      <!-- shipping -->
-      <div class="shipping-section" >
-        <p>Shipping 🚢</p>
-        <div class="shipping-list">
-          <div
-            class="shipping-item"
-            v-bind:class="{ shipping_selected: shippingCountry === index }"
-            v-for="(item, index) in shippingItems"
-            :key="index"
-            @click="setShippingCountry(index)"
-          >
-            <p>{{ item.countryName }} 💲{{ Number(item.price).toFixed(2) }}</p>
+    <transition name="cart">
+      <div class="test" v-if="cartItems.size !== 0"></div>
+    </transition>
+
+    <transition name="cart">
+      <div class="details-shown" v-if="cartItems.size !== 0">
+        <p class="cart-list-header">Cart Items</p>
+        <div class="item-list-row" v-for="(product, index) in cartItems" :key="index">
+          <div class="product-info-and-index">
+            <div class="item-number">
+              <p>{{ index + 1 }}</p>
+            </div>
+            <div class="product-info">
+              <p>{{ product.name }} @ 💲{{ product.price }}</p>
+            </div>
+          </div>
+          <div class="quantity">
+            Qty:
+            <div class="quantity-value">
+              <p>{{ product.quantity }}</p>
+            </div>
+          </div>
+          <div class="total-price">
+            <p>Price: 💲{{ Math.round(product.price * product.quantity).toFixed(2) }}</p>
+          </div>
+          <div class="button-section">
+            <div class="button" @click="removeFromCart(product.id)">
+              <p>Remove 💀</p>
+            </div>
+          </div>
+        </div>
+        <!-- shipping -->
+        <div class="shipping-section">
+          <p>Shipping 🚢</p>
+          <div class="shipping-list">
+            <div
+              class="shipping-item"
+              v-bind:class="{ shipping_selected: shippingCountry === index }"
+              v-for="(item, index) in shippingItems"
+              :key="index"
+              @click="setShippingCountry(index)"
+            >
+              <p>{{ item.countryName }} 💲{{ Number(item.price).toFixed(2) }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- total -->
+        <div class="total-section">
+          <div class="total-items-container">
+            <p>
+              Total amount is 💲
+              <span>{{ total }}</span>
+            </p>
           </div>
         </div>
       </div>
-
-      <!-- total -->
-      <div class="total-section">
-        <div class="total-items-container">
-          <p>
-            Total amount is 💲
-            <span>{{ total }}</span>
-          </p>
-        </div>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -101,11 +107,39 @@ export default {
 </script>
 
 <style scoped>
+.test {
+  height: 100vh;
+  width: 400px;
+  right: 0;
+  top: 0;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  position: absolute;
+  background-color: red;
+}
+
+.cart-enter-from {
+  transform: translateX(500px);
+}
+
+.cart-enter-active {
+  transition: all 0.5s ease-in-out;
+}
+
+.cart-leave-to {
+  transform: translateY(-500px);
+}
+
+.cart-leave-active {
+  transition: all 0.5s ease-in-out;
+}
+
 .right-container {
   flex: 1;
   height: 100%;
   padding: 20px;
   background-color: white;
+  position: relative;
 }
 
 .cart-list-header {
@@ -177,7 +211,7 @@ span {
 
 .total-section {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 50px;
 }
 
 .total-items-container {

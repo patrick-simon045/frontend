@@ -19,6 +19,7 @@ export default {
 <style scoped>
 .main-container {
   height: 100vh;
+  position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: center;
