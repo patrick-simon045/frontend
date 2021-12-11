@@ -1,9 +1,10 @@
 <template>
   <div class="right-container">
     <div class="details-hidden">
-      <p class="cart-list-header">Nothing selected</p>
+      <!-- <p class="cart-list-header">Nothing selected</p> -->
+      <img src="@/assets/empty-cart.jpg" alt="">
     </div>
-    
+
     <!-- cart items -->
     <transition name="cart">
       <div class="test" v-if="cartItems.size !== 0">
@@ -12,54 +13,65 @@
             <p>Cart Items</p>
           </div>
         </div>
-        <div class="item-list-row" v-for="(product, index) in cartItems" :key="index">
-          <div class="product-info-and-index">
-            <div class="item-number">
-              <p>{{ index + 1 }}</p>
-            </div>
-            <div class="product-info">
-              <p>{{ product.name }} @ 💲{{ product.price }}</p>
-            </div>
-          </div>
-          <div class="quantity">
-            Qty:
-            <div class="quantity-value">
-              <p>{{ product.quantity }}</p>
-            </div>
-          </div>
-          <div class="total-price">
-            <p>Price: 💲{{ Math.round(product.price * product.quantity).toFixed(2) }}</p>
-          </div>
-          <div class="button-section">
-            <div class="button" @click="removeFromCart(product.id)">
-              <p>Remove 💀</p>
-            </div>
-          </div>
-        </div>
 
-        <!-- shipping -->
-        <div class="shipping-section">
-          <p>Shipping 🚢</p>
-          <div class="shipping-list">
+        <div class="cart-items-padding">
+          <transition-group name="cart_list">
             <div
-              class="shipping-item"
-              v-bind:class="{ shipping_selected: shippingCountry === index }"
-              v-for="(item, index) in shippingItems"
+              class="item-list-row"
+              v-for="(product, index) in cartItems"
               :key="index"
-              @click="setShippingCountry(index)"
             >
-              <p>{{ item.countryName }} 💲{{ Number(item.price).toFixed(2) }}</p>
+              <div class="product-info-and-index">
+                <div class="item-number">
+                  <p>{{ index + 1 }}</p>
+                </div>
+                <div class="product-info">
+                  <p>{{ product.name }} @ 💲{{ product.price }}</p>
+                </div>
+              </div>
+              <div class="quantity">
+                Qty:
+                <div class="quantity-value">
+                  <p>{{ product.quantity }}</p>
+                </div>
+              </div>
+              <div class="total-price">
+                <p>Price: 💲{{ Math.round(product.price * product.quantity).toFixed(2) }}</p>
+              </div>
+              <div class="button-section">
+                <div class="button" @click="removeFromCart(product.id)">
+                  <p>Remove 💀</p>
+                </div>
+              </div>
             </div>
-          </div>
+          </transition-group>
         </div>
 
-        <!-- total -->
-        <div class="total-section">
-          <div class="total-items-container">
-            <p>
-              Total amount is 💲
-              <span>{{ total }}</span>
-            </p>
+        <div class="shipping-and-total">
+          <!-- shipping -->
+          <div class="shipping-section">
+            <p>Shipping 🚢</p>
+            <div class="shipping-list">
+              <div
+                class="shipping-item"
+                v-bind:class="{ shipping_selected: shippingCountry === index }"
+                v-for="(item, index) in shippingItems"
+                :key="index"
+                @click="setShippingCountry(index)"
+              >
+                <p>{{ item.countryName }} 💲{{ Number(item.price).toFixed(2) }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- total -->
+          <div class="total-section">
+            <div class="total-items-container">
+              <p>
+                Total amount is 💲
+                <span>{{ total }}</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -108,12 +120,28 @@ export default {
 </script>
 
 <style scoped>
+.cart-items-padding {
+  width: 100%;
+  padding: 0 20px;
+}
+
+.cart_list-enter-from,
+.cart_list-leave-to {
+  opacity: 0;
+  /* transform: translateY(30px) scale(0); */
+  transform: scale(0);
+}
+.cart_list-enter-active,
+.cart_list-leave-active {
+  transition: all 0.5s ease-in-out;
+}
+
 .test {
   height: 98vh;
   width: 100%;
   top: 0;
   right: 1vh;
-  padding: 20px;
+  /* padding: 20px; */
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
   position: absolute;
@@ -127,11 +155,16 @@ export default {
 
 .test-header {
   width: 100%;
-  padding: 10px 0;
+  margin-top: 20px;
+  padding: 10px 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+.test-header p{
+  font-weight: 400;
+  font-size: 30px;
 }
 
 .cart-enter-from {
@@ -173,6 +206,10 @@ export default {
   align-items: center;
   background-color: #fff5fd;
 }
+.details-hidden img{
+  height: 80%;
+  width: 100%;
+}
 .details-shown {
   width: 100%;
   height: 100%;
@@ -196,9 +233,19 @@ span {
   flex: 1;
 }
 
+.shipping-and-total {
+  width: 100%;
+  position: absolute;
+  bottom: 20px;
+  padding: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background-color: whitesmoke;
+  border: 1px solid #616161;
+}
+
 .shipping-section {
   width: 100%;
-  margin-top: 30px;
   text-align: left;
 }
 
@@ -236,7 +283,7 @@ span {
   border-radius: 10px;
   padding: 20px;
   font-size: 30px;
-  color: #fff;
-  background-color: #616161;
+  border: 1px solid #616161;
+  /* background-color: #616161; */
 }
 </style>
