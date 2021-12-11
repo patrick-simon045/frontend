@@ -130,9 +130,7 @@ export default {
   justify-content: flex-start;
   align-items: flex-start;
 }
-</style>
 
-<style scoped>
 img {
   width: 40px;
   height: 40px;
