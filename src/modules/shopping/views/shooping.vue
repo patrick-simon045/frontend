@@ -24,5 +24,6 @@ export default {
   justify-content: flex-start;
   align-items: center;
   row-gap: 20px;
+  background-color: #fff5fd;
 }
 </style>

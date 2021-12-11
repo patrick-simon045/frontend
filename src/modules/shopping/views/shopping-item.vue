@@ -1,17 +1,17 @@
 <template>
   <div class="right-container">
-    <div class="details-hidden" v-if="cartItems.size === 0">
+    <div class="details-hidden">
       <p class="cart-list-header">Nothing selected</p>
     </div>
+    
     <!-- cart items -->
-
     <transition name="cart">
-      <div class="test" v-if="cartItems.size !== 0"></div>
-    </transition>
-
-    <transition name="cart">
-      <div class="details-shown" v-if="cartItems.size !== 0">
-        <p class="cart-list-header">Cart Items</p>
+      <div class="test" v-if="cartItems.size !== 0">
+        <div class="test-header">
+          <div>
+            <p>Cart Items</p>
+          </div>
+        </div>
         <div class="item-list-row" v-for="(product, index) in cartItems" :key="index">
           <div class="product-info-and-index">
             <div class="item-number">
@@ -36,6 +36,7 @@
             </div>
           </div>
         </div>
+
         <!-- shipping -->
         <div class="shipping-section">
           <p>Shipping 🚢</p>
@@ -108,37 +109,52 @@ export default {
 
 <style scoped>
 .test {
-  height: 100vh;
-  width: 400px;
-  right: 0;
+  height: 98vh;
+  width: 100%;
   top: 0;
-  border-top-left-radius: 20px;
+  right: 1vh;
+  padding: 20px;
+  border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
   position: absolute;
-  background-color: red;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.test-header {
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .cart-enter-from {
-  transform: translateX(500px);
+  transform: translateY(-98vh);
 }
 
 .cart-enter-active {
-  transition: all 0.5s ease-in-out;
+  transition: all 0.6s ease-in-out;
 }
 
 .cart-leave-to {
-  transform: translateY(-500px);
+  transform: translateY(-98vh);
 }
 
 .cart-leave-active {
-  transition: all 0.5s ease-in-out;
+  transition: all 0.6s ease-in-out;
 }
 
 .right-container {
   flex: 1;
   height: 100%;
   padding: 20px;
-  background-color: white;
+  background-color: #fff5fd;
   position: relative;
 }
 
@@ -155,6 +171,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #fff5fd;
 }
 .details-shown {
   width: 100%;
