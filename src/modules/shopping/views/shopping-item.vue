@@ -1,7 +1,6 @@
 <template>
   <div class="right-container">
     <div class="details-hidden">
-      <!-- <p class="cart-list-header">Nothing selected</p> -->
       <img src="@/assets/empty-cart.jpg" alt="">
     </div>
 
@@ -128,7 +127,6 @@ export default {
 .cart_list-enter-from,
 .cart_list-leave-to {
   opacity: 0;
-  /* transform: translateY(30px) scale(0); */
   transform: scale(0);
 }
 .cart_list-enter-active,
