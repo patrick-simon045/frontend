@@ -1,7 +1,7 @@
 <template>
   <!-- add items inputs -->
   <add-new-item />
-  
+
   <div class="left-container">
     <div class="header-section">
       <p class="product-list-header">{{ message }}</p>
@@ -10,36 +10,41 @@
       </div>
     </div>
     <div class="item-list-container">
-      <div class="item-list-row" v-for="(product, index) in products" :key="index">
-        <div class="product-info-and-index">
-          <div class="item-number">
-            <p>{{ index + 1 }}</p>
-          </div>
-          <div class="product-info">
-            <p>{{ product.name }} @ 💲{{ product.price }}</p>
-          </div>
-        </div>
-        <div class="quantity">
-          Qty:
-          <div class="quantity-value">
-            <p>{{ product.quantity }}</p>
-          </div>
-        </div>
-        <div class="button-section">
-          <div class="button details" @click="showDetails(index)">
-            <p>Cart 👉🏻</p>
-          </div>
-          <div class="button" @click="addToCart(index)">
-            <p>Add ➕</p>
-          </div>
-          <div class="button" @click="removeFromCart(index)">
-            <p>Minus ➖</p>
-          </div>
-        </div>
+      <div v-if="products.length == 0">
+        <p class="productListEmptyMessage">{{ productListEmptyMessage }}</p>
       </div>
-    <!-- <p>TODO #1: <strong>Implement ADD NEW ITEM feature</strong></p>
+      <transition-group name="product_list">
+        <div class="item-list-row" v-for="(product, index) in products" :key="index">
+          <div class="product-info-and-index">
+            <div class="item-number">
+              <p>{{ index + 1 }}</p>
+            </div>
+            <div class="product-info">
+              <p>{{ product.name }} @ 💲{{ product.price }}</p>
+            </div>
+          </div>
+          <div class="quantity">
+            Qty:
+            <div class="quantity-value">
+              <p>{{ product.quantity }}</p>
+            </div>
+          </div>
+          <div class="button-section">
+            <div class="button details" @click="showDetails(index)">
+              <p>Cart 👉🏻</p>
+            </div>
+            <div class="button" @click="addToCart(index)">
+              <p>Add ➕</p>
+            </div>
+            <div class="button" @click="removeFromCart(index)">
+              <p>Minus ➖</p>
+            </div>
+          </div>
+        </div>
+      </transition-group>
+      <!-- <p>TODO #1: <strong>Implement ADD NEW ITEM feature</strong></p>
     <p>TODO #2: <strong>Implement DARKMODE/LIGHTMODE SWITCH feature</strong></p>
-    <p>TODO #3: <strong>REFACTOR CODE OBVIOUSLY 👀</strong></p> -->
+      <p>TODO #3: <strong>REFACTOR CODE OBVIOUSLY 👀</strong></p>-->
     </div>
   </div>
 </template>
@@ -55,6 +60,7 @@ export default {
   data() {
     return {
       message: "Place your Order",
+      productListEmptyMessage: "No products added"
     };
   },
 
@@ -77,13 +83,25 @@ export default {
     addNewItem() {
       this.$store.commit('SHOW_ADD_NEW_ITEM_WINDOW')
     },
-    
+
   },
 };
 </script>
 
 <style>
+.productListEmptyMessage{
+  margin-top: 20px;
+}
 
+.product_list-enter-from,
+.product_list-leave-to {
+  opacity: 0;
+  transform: scale(0);
+}
+.product_list-enter-active,
+.product_list-leave-active {
+  transition: all 0.5s ease-in-out;
+}
 
 .left-container {
   flex: 1;
@@ -99,8 +117,6 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-
-
 
 .close-input-section {
   width: 100px;

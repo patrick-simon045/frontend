@@ -115,6 +115,10 @@ export default {
 </script>
 
 <style scoped>
+
+.product-info {
+  text-align: left;
+}
 .cart-items-padding {
   width: 100%;
   padding: 0 20px;

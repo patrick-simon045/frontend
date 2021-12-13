@@ -71,6 +71,8 @@ export default {
         },
 
         filteredList() {
+            // var products = this.$store.getters['GET_PRODUCTS']
+            // if (products.length > 0) { return this.filterFromProducts() }
             if (this.enteredInput === '') { return this.books }
             var newFilteredList = this.books.filter(item => item.name.toLowerCase().includes(this.enteredInput.toLowerCase()))
             return newFilteredList
@@ -83,12 +85,41 @@ export default {
             this.$store.commit('HIDE_ADD_NEW_ITEM_WINDOW')
         },
 
+        filterFromProducts() {
+            var products = this.$store.getters['GET_PRODUCTS']
+            var filteredProducts = []
+            this.books.forEach(product => {
+                products.forEach(element => {
+                    if (element.name !== product.name) {
+                        filteredProducts.push(product)
+                    }
+                });
+            })
+
+            console.log(`filteredProducts ${filteredProducts}`);
+
+            return filteredProducts
+        },
+
+        itemsToAdd(allProducts, selectedGroceries) {
+            // var storeProducts = this.$store.getters['GET_PRODUCTS']
+            var newProductsToAdd = allProducts.filter(productItem => {
+                return selectedGroceries.includes(productItem.name)
+            })
+
+            return newProductsToAdd
+        },
+
         addToOrder() {
             if (this.checkedGroceries.length !== 0) {
+                var newProductsToAdd = this.itemsToAdd(this.books, this.checkedGroceries)
+
+                console.log(newProductsToAdd);
+                this.$store.dispatch('ADD_PRODUCT', { productList: newProductsToAdd })
+
+                this.$store.commit('HIDE_ADD_NEW_ITEM_WINDOW')
                 this.enteredInput = ''
                 this.checkedGroceries = []
-                alert(`Adding ${this.checkedGroceries} to orders`);
-                this.$store.commit('HIDE_ADD_NEW_ITEM_WINDOW')
                 return;
             }
 
@@ -144,7 +175,7 @@ label {
     align-items: center;
     gap: 10px;
 }
-.input-section button{
+.input-section button {
     font-size: 12px;
 }
 
@@ -158,6 +189,7 @@ label {
 }
 
 .grocery-list {
+    flex: 1.5;
     height: 100%;
     width: 100%;
     padding: 20px;
@@ -165,6 +197,7 @@ label {
 }
 
 .griceries-selected {
+    flex: 1;
     height: 100%;
     width: 100%;
     padding: 20px;

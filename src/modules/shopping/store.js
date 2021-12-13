@@ -3,9 +3,10 @@ export default {
     items: ["🥑 avocado", "🍉 watermelon"],
     showAddNewItem: Boolean(false),
     products: [
-      { name: "🥑 avocado", price: 10, quantity: 1, id: 1 },
-      { name: "🍉 watermelon", price: 12, quantity: 1, id: 2 },
+      // { name: "🥑 avocado", price: 10, quantity: 1, id: 1 },
+      // { name: "🍉 watermelon", price: 12, quantity: 1, id: 2 },
     ],
+    // products: new Set(),
     productDetailsPage: { visible: false, productIndex: 0 },
     product: {},
     cart: new Set(),
@@ -74,6 +75,15 @@ export default {
     },
 
     // products
+    ADD_PRODUCT(state, payload) {
+      state.products.push({
+        name: payload.name,
+        price: payload.price,
+        quantity: 1,
+        id: payload.id,
+      });
+    },
+
     ADD_QUANTITY(state, { productInd }) {
       state.products[productInd].quantity =
         state.products[productInd].quantity + 1;
@@ -120,6 +130,11 @@ export default {
     },
 
     // products
+    ADD_PRODUCT({ commit }, { productList }) {
+      productList.forEach((productItem) => {
+        commit("ADD_PRODUCT", productItem);
+      });
+    },
     ADD_QUANTITY_ACTION({ commit }, { productInd }) {
       commit("ADD_QUANTITY", productInd);
     },
